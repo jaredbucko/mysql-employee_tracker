@@ -19,6 +19,7 @@
   "homepage": "https://github.com/jaredbucko/mysql-employee_tracker#readme",
   "dependencies": {
     "mysql": "2.18.0",
-    "inquirer": "7.0.3"
+    "inquirer": "7.0.3",
+    "console.table": "0.10.0"
   }
 }
