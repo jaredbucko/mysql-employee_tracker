@@ -25,7 +25,7 @@ function runApp() {
   inquirer
   .prompt({
     name: "action",
-    type: "list",
+    type: "rawlist",
     message: "Welcome! What would you like to do?",
     choices: [
       "Create new department",
@@ -34,7 +34,10 @@ function runApp() {
       "View all departments",
       "View all roles",
       "View all employees",
-      "Update employee"
+      "Update employee",
+      "Delete department",
+      "Delete employee",
+      "Exit"
     ]
   })
   .then(function(answer) {
@@ -66,6 +69,19 @@ function runApp() {
     case "Update employee":
       method.updateEmployee();
       break;
+
+    case "Delete department":
+      method.deleteDepartment();
+      break;
+
+    case "Delete employee":
+    method.deleteEmployee();
+    break;
+
+    case "Exit":
+      method.quitApp();
+      break;
+
     }
   });
 };

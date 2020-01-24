@@ -146,5 +146,51 @@ module.exports = {
           server.runApp();
           });
       });
+  },
+
+  deleteDepartment: function() {
+    inquirer
+      .prompt([
+        {
+        name: "name",
+        type: "input",
+        message: "What is the name of the department you would like to delete?"
+        }
+      ])
+      .then(function(answer) {
+        var query = "DELETE FROM department WHERE (name=?)";
+        connection.query(query, [answer.name], function(err, res) {
+          console.table("Department deleted");
+          server.runApp();
+          });
+      });
+  },
+
+  deleteEmployee: function() {
+    inquirer
+      .prompt([
+        {
+        name: "first_name",
+        type: "input",
+        message: "What is the first name of the employee you would like to delete?"
+        },
+        {
+          name: "last_name",
+          type: "input",
+          message: "What is the last name of the employee you would like to delete?"
+        }
+      ])
+      .then(function(answer) {
+        var query = "DELETE FROM employee WHERE (first_name=? AND last_name=?)";
+        connection.query(query, [answer.first_name, answer.last_name], function(err, res) {
+          console.table("Employee deleted");
+          server.runApp();
+          });
+      });
+  },
+
+  quitApp: function() {
+    connection.end();
+    process.exit();
   }
 };
