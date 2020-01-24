@@ -40,7 +40,7 @@ function startApp() {
   .then(function(answer) {
     switch (answer.action) {
     case "Create new department":
-      // createDepartment();
+      createDepartment();
       break;
 
     case "Create new role":
@@ -52,17 +52,37 @@ function startApp() {
       break;
 
     case "View all departments":
-      // viewDepartments();
+      viewDepartments();
       break;
 
     case "View all roles":
-      // viewRoles();
+      viewRoles();
       break;
 
     case "View all employees":
     viewEmployees();
     break;
     }
+  });
+};
+
+function createDepartment() {
+
+}
+
+function viewDepartments() {
+  var query = "SELECT * FROM department";
+  connection.query(query, function(err, res) {
+    console.table(res);
+    startApp();
+  });
+};
+
+function viewRoles() {
+  var query = "SELECT * FROM role";
+  connection.query(query, function(err, res) {
+    console.table(res);
+    startApp();
   });
 };
 
