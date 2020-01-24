@@ -34,7 +34,7 @@ function runApp() {
       "View all departments",
       "View all roles",
       "View all employees",
-      "Update employee roles"
+      "Update employee"
     ]
   })
   .then(function(answer) {
@@ -60,8 +60,12 @@ function runApp() {
       break;
 
     case "View all employees":
-    viewEmployees();
-    break;
+      viewEmployees();
+      break;
+
+    case "Update employee":
+      updateEmployee();
+      break;
     }
   });
 };
@@ -166,4 +170,32 @@ function viewEmployees() {
     console.table(res);
     runApp();
   });
+};
+
+function updateEmployee() {
+  inquirer
+    .prompt([
+      {
+      name: "first_name",
+      type: "input",
+      message: "What is the first name of the employee you would like to update?"
+      },
+      {
+        name: "last_name",
+        type: "input",
+        message: "What is the last name of the employee you would like to update?"
+      },
+      {
+        name: "role",
+        type: "input",
+        message: "What is the id for their new role?"
+      }
+    ])
+    .then(function(answer) {
+      var query = "UPDATE employee SET role_id=? WHERE (first_name=? AND last_name=?)";
+      connection.query(query, [answer.role, answer.first_name, answer.last_name], function(err, res) {
+        console.table("Role updated!");
+        runApp();
+        });
+    });
 };
