@@ -34,8 +34,10 @@ function runApp() {
       "View all departments",
       "View all roles",
       "View all employees",
-      "Update employee",
+      "Update employee role",
+      "Update employee manager",
       "Delete department",
+      "Delete role",
       "Delete employee",
       "Exit"
     ]
@@ -66,17 +68,25 @@ function runApp() {
       method.viewEmployees();
       break;
 
-    case "Update employee":
-      method.updateEmployee();
+    case "Update employee role":
+      method.updateEmployeeRole();
+      break;
+
+    case "Update employee manager":
+      method.updateEmployeeManager();
       break;
 
     case "Delete department":
       method.deleteDepartment();
       break;
 
+    case "Delete role":
+      method.deleteRole();
+      break;
+
     case "Delete employee":
-    method.deleteEmployee();
-    break;
+      method.deleteEmployee();
+      break;
 
     case "Exit":
       method.quitApp();

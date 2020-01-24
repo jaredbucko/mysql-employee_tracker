@@ -83,13 +83,17 @@ module.exports = {
         },
         {
           name: "manager_id",
-          type: "input",
-          message: "What is the id of this employee's manager?"
+          type: "number",
+          message: "What is the id# of this employee's manager? (Leave blank if null)"
         }
       ])
       .then(function(answer) {
+        let manager_id = answer.manager_id;
+        if (!answer.manager_id) {
+          manager_id = null;
+        };
         const query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
-        connection.query(query, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], function(err, res) {
+        connection.query(query, [answer.first_name, answer.last_name, answer.role_id, manager_id], function(err, res) {
           console.log("New employee added to database.");
           server.runApp();
         });
@@ -120,7 +124,7 @@ module.exports = {
     });
   },
   
-  updateEmployee: function() {
+  updateEmployeeRole: function() {
     inquirer
       .prompt([
         {
@@ -135,14 +139,46 @@ module.exports = {
         },
         {
           name: "role",
-          type: "input",
-          message: "What is the id for their new role?"
+          type: "number",
+          message: "What is the id# of their new role?"
         }
       ])
       .then(function(answer) {
         var query = "UPDATE employee SET role_id=? WHERE (first_name=? AND last_name=?)";
         connection.query(query, [answer.role, answer.first_name, answer.last_name], function(err, res) {
           console.table("Role updated!");
+          server.runApp();
+          });
+      });
+  },
+
+  updateEmployeeManager: function() {
+    inquirer
+      .prompt([
+        {
+        name: "first_name",
+        type: "input",
+        message: "What is the first name of the employee you would like to update?"
+        },
+        {
+          name: "last_name",
+          type: "input",
+          message: "What is the last name of the employee you would like to update?"
+        },
+        {
+          name: "manager_id",
+          type: "number",
+          message: "What is the id# of their new manager? (Leave blank if null)"
+        }
+      ])
+      .then(function(answer) {
+        let manager_id = answer.manager_id;
+        if (!answer.manager_id) {
+          manager_id = null;
+        };
+        var query = "UPDATE employee SET manager_id=? WHERE (first_name=? AND last_name=?)";
+        connection.query(query, [manager_id, answer.first_name, answer.last_name], function(err, res) {
+          console.table("Manager updated!");
           server.runApp();
           });
       });
@@ -160,7 +196,25 @@ module.exports = {
       .then(function(answer) {
         var query = "DELETE FROM department WHERE (name=?)";
         connection.query(query, [answer.name], function(err, res) {
-          console.table("Department deleted");
+          console.table("Department deleted.");
+          server.runApp();
+          });
+      });
+  },
+
+  deleteRole: function() {
+    inquirer
+      .prompt([
+        {
+        name: "name",
+        type: "input",
+        message: "What is the name of the role you would like to delete?"
+        }
+      ])
+      .then(function(answer) {
+        var query = "DELETE FROM role WHERE (name=?)";
+        connection.query(query, [answer.name], function(err, res) {
+          console.table("Role deleted");
           server.runApp();
           });
       });
@@ -183,7 +237,7 @@ module.exports = {
       .then(function(answer) {
         var query = "DELETE FROM employee WHERE (first_name=? AND last_name=?)";
         connection.query(query, [answer.first_name, answer.last_name], function(err, res) {
-          console.table("Employee deleted");
+          console.table("Employee deleted.");
           server.runApp();
           });
       });
